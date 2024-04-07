@@ -10,7 +10,7 @@ import (
 
 func main() {
 	weatherApiKey := os.Getenv("WEATHER_API_KEY")
-	weatherRepository := weather.NewWeatherRepository(weatherApiKey)
+	weatherRepository := weather.WeatherRepositoryFactory(weatherApiKey)
 	getInformationsUseCase := informations.GetInformationsUseCaseFactory(weatherRepository)
 
 	c := server.Controllers{

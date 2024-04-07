@@ -7,9 +7,11 @@ jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
-    concurrency: deploy-group # optional: ensure only one action runs at a time
+    concurrency: deploy-group
     steps:
       - uses: actions/checkout@v4
+      - run: go test -v ./...
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
