@@ -6,7 +6,8 @@ import (
 )
 
 type Controllers struct {
-	Health http.HandlerFunc
+	Health       http.HandlerFunc
+	Informations http.HandlerFunc
 }
 
 type Server struct {
@@ -21,9 +22,10 @@ func (s *Server) Run(p string) {
 	fmt.Printf("start server on port %s\n", p)
 
 	httpServer := &http.Server{
-		Addr:    fmt.Sprintf(":%s", p),
-		Handler: s.Router(s.Controllers),
+		Addr: fmt.Sprintf(":%s", p),
 	}
+
+	loadRoutes(s.Controllers)
 
 	httpServer.ListenAndServe()
 }

@@ -1,13 +1,10 @@
 package server
 
 import (
-	"github.com/go-chi/chi"
+	"net/http"
 )
 
-func (s *Server) Router(c Controllers) *chi.Mux {
-	r := chi.NewRouter()
-
-	r.Get("/health", c.Health)
-
-	return r
+func loadRoutes(c Controllers) {
+	http.HandleFunc("GET /health", c.Health)
+	http.HandleFunc("GET /informations/{city}", c.Informations)
 }
