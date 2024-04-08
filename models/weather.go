@@ -5,4 +5,5 @@ type Weather struct {
 	FeelsLikeTemperature float32 `json:"feels_like_temperature"`
 	Pressure             float32 `json:"pressure"`
 	Humidity             int     `json:"humidity"`
+	Description          string  `json:"description"`
 }

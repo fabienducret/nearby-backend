@@ -13,6 +13,9 @@ func Parse(from []byte) models.Weather {
 			Pressure      float32 `json:"pressure"`
 			Humidity      int     `json:"humidity"`
 		} `json:"main"`
+		Weather []struct {
+			Description string `json:"description"`
+		} `json:"weather"`
 	}
 
 	json.Unmarshal(from, &reply)
@@ -22,5 +25,6 @@ func Parse(from []byte) models.Weather {
 		FeelsLikeTemperature: reply.Main.FeelsLikeTemp,
 		Pressure:             reply.Main.Pressure,
 		Humidity:             reply.Main.Humidity,
+		Description:          reply.Weather[0].Description,
 	}
 }

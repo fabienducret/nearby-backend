@@ -15,6 +15,7 @@ func TestParser(t *testing.T) {
 			FeelsLikeTemperature: 20.66,
 			Pressure:             1013,
 			Humidity:             60,
+			Description:          "overcast clouds",
 		}
 
 		weather := weather.Parse(toParse)
