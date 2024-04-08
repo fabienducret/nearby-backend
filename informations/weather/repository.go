@@ -5,16 +5,21 @@ import (
 	"io"
 	"nearby/models"
 	"net/http"
+	"time"
 )
 
 func WeatherRepositoryFactory(apiKey string) func(city string) (models.Weather, error) {
+	client := http.Client{
+		Timeout: 2 * time.Second,
+	}
+	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?appid=%s&units=metric", apiKey)
+
 	return func(city string) (models.Weather, error) {
-		request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?appid=%s&units=metric&q=%s", apiKey, city), nil)
+		request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s&q=%s", url, city), nil)
 		if err != nil {
 			return models.Weather{}, err
 		}
 
-		client := http.Client{}
 		response, err := client.Do(request)
 		if err != nil {
 			return models.Weather{}, err

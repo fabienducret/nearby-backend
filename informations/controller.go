@@ -6,12 +6,12 @@ import (
 	"net/http"
 )
 
-type GetInformationsUseCase func(city string) (models.Informations, error)
+type GetInformationsUseCase func(city string) models.Informations
 
 func ControllerFactory(getInfos GetInformationsUseCase) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		city := r.PathValue("city")
-		infos, _ := getInfos(city)
+		infos := getInfos(city)
 
 		response, _ := json.Marshal(infos)
 

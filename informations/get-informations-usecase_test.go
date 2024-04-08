@@ -27,7 +27,7 @@ func TestGetInformationsUseCase(t *testing.T) {
 		}
 		getInfos := informations.GetInformationsUseCaseFactory(stubWeatherRepository, subNewsRepository)
 
-		informations, _ := getInfos("Paris")
+		informations := getInfos("Paris")
 
 		assertDeepEqual(t, informations, want)
 	})
