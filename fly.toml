@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for nearby-backend-rough-water-8193 on 2024-04-05T10:26:58+02:00
+# fly.toml app configuration file generated for nearby-backend-bitter-tree-679 on 2024-04-08T13:45:06+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'nearby-backend-rough-water-8193'
+app = 'nearby-backend-bitter-tree-679'
 primary_region = 'cdg'
 
 [build]
