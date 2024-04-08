@@ -13,10 +13,19 @@ func stubWeatherRepository(city string) (models.Weather, error) {
 	}, nil
 }
 
+func subNewsRepository(city string) ([]models.News, error) {
+	return []models.News{
+		{Title: "fake news", Description: "this is a fake news"},
+	}, nil
+}
+
 func TestGetInformationsUseCase(t *testing.T) {
 	t.Run("get weather informations with success", func(t *testing.T) {
-		want := models.Informations{Weather: models.Weather{Temperature: 15.5}}
-		getInfos := informations.GetInformationsUseCaseFactory(stubWeatherRepository)
+		want := models.Informations{
+			Weather: models.Weather{Temperature: 15.5},
+			News:    []models.News{{Title: "fake news", Description: "this is a fake news"}},
+		}
+		getInfos := informations.GetInformationsUseCaseFactory(stubWeatherRepository, subNewsRepository)
 
 		informations, _ := getInfos("Paris")
 
