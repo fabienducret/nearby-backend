@@ -1,7 +1,7 @@
 package informations
 
 import (
-	"log"
+	"fmt"
 	"nearby/models"
 	"sync"
 )
@@ -17,7 +17,7 @@ func GetInformationsUseCaseFactory(weatherFor WeatherRepository, newsFor NewsRep
 		fetchWeather := func(city string) {
 			weather, err := weatherFor(city)
 			if err != nil {
-				log.Println(err)
+				fmt.Println(err)
 			}
 
 			infos.Weather = weather
@@ -26,7 +26,7 @@ func GetInformationsUseCaseFactory(weatherFor WeatherRepository, newsFor NewsRep
 		fetchNews := func(city string) {
 			news, err := newsFor(city)
 			if err != nil {
-				log.Println(err)
+				fmt.Println(err)
 			}
 
 			infos.News = news
