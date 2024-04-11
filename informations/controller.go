@@ -16,6 +16,7 @@ func ControllerFactory(getInfos GetInformationsUseCase) func(w http.ResponseWrit
 		response, _ := json.Marshal(infos)
 
 		w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Access-Control-Allow-Origin", "*")
 		w.WriteHeader(http.StatusOK)
 		w.Write(response)
 	}
