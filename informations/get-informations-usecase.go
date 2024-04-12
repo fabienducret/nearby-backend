@@ -3,7 +3,6 @@ package informations
 import (
 	"fmt"
 	"nearby/models"
-	"sync"
 )
 
 type WeatherRepository func(city string) (models.Weather, error)
@@ -11,44 +10,34 @@ type WeatherRepository func(city string) (models.Weather, error)
 type NewsRepository func(city string) ([]models.News, error)
 
 func GetInformationsUseCaseFactory(weatherFor WeatherRepository, newsFor NewsRepository) GetInformationsUseCase {
+	fetchWeather := func(city string, result chan<- models.Weather) {
+		weather, err := weatherFor(city)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		result <- weather
+	}
+
+	fetchNews := func(city string, result chan<- []models.News) {
+		news, err := newsFor(city)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		result <- news
+	}
+
 	return func(city string) models.Informations {
-		infos := models.Informations{}
+		weather := make(chan models.Weather)
+		news := make(chan []models.News)
 
-		fetchWeather := func(city string) {
-			weather, err := weatherFor(city)
-			if err != nil {
-				fmt.Println(err)
-			}
+		go fetchWeather(city, weather)
+		go fetchNews(city, news)
 
-			infos.Weather = weather
+		return models.Informations{
+			Weather: <-weather,
+			News:    <-news,
 		}
-
-		fetchNews := func(city string) {
-			news, err := newsFor(city)
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			infos.News = news
-		}
-
-		withConcurrency(city, []func(city string){fetchWeather, fetchNews})
-
-		return infos
 	}
-}
-
-func withConcurrency(city string, functions []func(city string)) {
-	wg := sync.WaitGroup{}
-
-	for _, f := range functions {
-		wg.Add(1)
-
-		go func(city string) {
-			defer wg.Done()
-			f(city)
-		}(city)
-	}
-
-	wg.Wait()
 }
