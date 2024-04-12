@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"nearby/health"
 	"nearby/informations"
 	"nearby/informations/news"
@@ -23,7 +24,8 @@ func main() {
 func controllers(weatherApiKey string) server.Controllers {
 	weatherRepository := weather.WeatherRepositoryFactory(weatherApiKey)
 	newsRepository := news.NewsRepositoryFactory()
-	getInformationsUseCase := informations.GetInformationsUseCaseFactory(weatherRepository, newsRepository)
+	logger := log.Default()
+	getInformationsUseCase := informations.GetInformationsUseCaseFactory(weatherRepository, newsRepository, logger)
 
 	return server.Controllers{
 		Health:       health.Controller,

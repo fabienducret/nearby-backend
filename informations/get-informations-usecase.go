@@ -1,7 +1,6 @@
 package informations
 
 import (
-	"fmt"
 	"nearby/models"
 )
 
@@ -9,11 +8,19 @@ type WeatherRepository func(city string) (models.Weather, error)
 
 type NewsRepository func(city string) ([]models.News, error)
 
-func GetInformationsUseCaseFactory(weatherFor WeatherRepository, newsFor NewsRepository) GetInformationsUseCase {
+type Logger interface {
+	Println(v ...any)
+}
+
+func GetInformationsUseCaseFactory(
+	weatherFor WeatherRepository,
+	newsFor NewsRepository,
+	logger Logger,
+) GetInformationsUseCase {
 	fetchWeather := func(city string, result chan<- models.Weather) {
 		weather, err := weatherFor(city)
 		if err != nil {
-			fmt.Println(err)
+			logger.Println(err)
 		}
 
 		result <- weather
@@ -22,7 +29,7 @@ func GetInformationsUseCaseFactory(weatherFor WeatherRepository, newsFor NewsRep
 	fetchNews := func(city string, result chan<- []models.News) {
 		news, err := newsFor(city)
 		if err != nil {
-			fmt.Println(err)
+			logger.Println(err)
 		}
 
 		result <- news
