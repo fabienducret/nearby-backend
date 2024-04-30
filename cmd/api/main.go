@@ -2,27 +2,24 @@ package main
 
 import (
 	"log"
+	"nearby/config"
 	"nearby/health"
 	"nearby/informations"
 	"nearby/informations/news"
 	"nearby/informations/weather"
 	"nearby/server"
-	"os"
 )
 
 func main() {
-	weatherApiKey := os.Getenv("WEATHER_API_KEY")
-	if weatherApiKey == "" {
-		panic("missing WEATHER_API_KEY")
-	}
+	config := config.MustInit()
 
-	c := controllers(weatherApiKey)
+	c := controllers(config)
 	s := server.New(c)
 	s.Run("8080")
 }
 
-func controllers(weatherApiKey string) server.Controllers {
-	weatherRepository := weather.WeatherRepositoryFactory(weatherApiKey)
+func controllers(config *config.Config) server.Controllers {
+	weatherRepository := weather.WeatherRepositoryFactory(config.WeatherApiKey)
 	newsRepository := news.NewsRepositoryFactory()
 	logger := log.Default()
 	getInformationsUseCase := informations.GetInformationsUseCaseFactory(weatherRepository, newsRepository, logger)
