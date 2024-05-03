@@ -19,13 +19,13 @@ func main() {
 }
 
 func controllers(config *config.Config) server.Controllers {
-	weatherRepository := weather.WeatherRepositoryFactory(config.WeatherApiKey)
-	newsRepository := news.NewsRepositoryFactory()
+	weatherRepository := weather.InitWeatherRepository(config.WeatherApiKey)
+	newsRepository := news.InitNewsRepository()
 	logger := log.Default()
-	getInformationsUseCase := informations.GetInformationsUseCaseFactory(weatherRepository, newsRepository, logger)
+	getInformationsUseCase := informations.InitGetInformationsUseCase(weatherRepository, newsRepository, logger)
 
 	return server.Controllers{
 		Health:       health.Controller,
-		Informations: informations.ControllerFactory(getInformationsUseCase),
+		Informations: informations.InitController(getInformationsUseCase),
 	}
 }

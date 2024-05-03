@@ -8,7 +8,7 @@ import (
 
 type GetInformationsUseCase func(city string) models.Informations
 
-func ControllerFactory(getInfos GetInformationsUseCase) func(w http.ResponseWriter, r *http.Request) {
+func InitController(getInfos GetInformationsUseCase) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		city := r.PathValue("city")
 		infos := getInfos(city)

@@ -11,7 +11,7 @@ import (
 
 const BING_URL = "https://www.bing.com/news/search"
 
-func NewsRepositoryFactory() func(city string) ([]models.News, error) {
+func InitNewsRepository() func(city string) ([]models.News, error) {
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}

@@ -35,7 +35,7 @@ func TestGetInformationsUseCase(t *testing.T) {
 			News:    []models.News{{Title: "fake news"}},
 		}
 		logger := &spyLogger{}
-		getInfos := informations.GetInformationsUseCaseFactory(stubWeatherRepository, subNewsRepository, logger)
+		getInfos := informations.InitGetInformationsUseCase(stubWeatherRepository, subNewsRepository, logger)
 
 		informations := getInfos("Paris")
 
@@ -53,7 +53,7 @@ func TestGetInformationsUseCase(t *testing.T) {
 			return []models.News{}, fmt.Errorf("error in news")
 		}
 
-		getInfos := informations.GetInformationsUseCaseFactory(stubWeatherRepository, subNewsRepository, logger)
+		getInfos := informations.InitGetInformationsUseCase(stubWeatherRepository, subNewsRepository, logger)
 
 		informations := getInfos("Paris")
 

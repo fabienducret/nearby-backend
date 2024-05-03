@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func WeatherRepositoryFactory(apiKey string) func(city string) (models.Weather, error) {
+func InitWeatherRepository(apiKey string) func(city string) (models.Weather, error) {
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}

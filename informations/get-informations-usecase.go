@@ -12,7 +12,7 @@ type Logger interface {
 	Println(v ...any)
 }
 
-func GetInformationsUseCaseFactory(
+func InitGetInformationsUseCase(
 	weatherFor WeatherRepository,
 	newsFor NewsRepository,
 	logger Logger,
